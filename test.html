@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Animated Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ff99cc;
+        }
+        canvas {
+            border: 3px solid #ff6b6b;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="loveCanvas"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const canvas = document.getElementById("loveCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = 1000;
+        canvas.height = 1000;
+
+        let particles = [];
+
+        // Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 3 + 1;
+                const color = Math.random() > 0.5 ? '#ff6b6b' : '#ff8e53';
+                this.color = color;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Slow down particles near the center
+                if (this.x * this.x + this.y * this.y < 40000) {
+                    this.vx *= 0.9;
+                    this.vy *= 0.9;
+                }
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        // Initialize particles
+        function createParticles(count) {
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                let x = Math.random() * canvas.width;
+                let y = Math.random() * canvas.height;
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        // Add floating heart animation
+        function addHeartAnimation() {
+            const heartSize = 50;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            ctx.beginPath();
+            for (let angle = 0; angle < Math.PI * 4; angle += 0.1) {
+                const r = heartSize + Math.sin(angle) * 50;
+                const x = centerX + Math.cos(angle) * r;
+                const y = centerY + Math.sin(angle) * 25;
+                ctx.lineTo(x, y);
+            }
+            ctx.fillStyle = "#ff6b6b";
+            ctx.fill();
+        }
+
+        // Remove heart animation
+        function removeHeartAnimation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Add click interaction (simulated "kiss")
+        $(canvas).click(function(e) {
+            e.preventDefault();
+            const heartSize = Math.random() * 25;
+            const x = e.clientX - 100;
+            const y = e.clientY - 100;
+
+            ctx.beginPath();
+            for (let angle = 0; angle < Math.PI * 4; angle += 0.1) {
+                const r = heartSize + Math.sin(angle) * 25;
+                const xx = x + Math.cos(angle) * r;
+                const yy = y + Math.sin(angle) * 25;
+                ctx.lineTo(xx, yy);
+            }
+            ctx.fillStyle = "#ff6b6b";
+            ctx.fill();
+        });
+
+        // Animation loop
+        function animate() {
+            if (Date.now() > 1000 || particles.length < 30) {
+                createParticles(40);
+                const hearts = Math.floor(Date.now() / 1500) % 2;
+                addHeartAnimation();
+                setTimeout(removeHeartAnimation, 300);
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                draw = function() {
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fillStyle = particle.color;
+                    ctx.fill();
+                    ctx.strokeStyle = "#ff6b6b";
+                    ctx.stroke();
+                }(particle);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Add a rotating heart border
+        function drawHeartBorder() {
+            const heartSize = 150;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            ctx.beginPath();
+            for (let angle = 0; angle < Math.PI * 4; angle += 0.1) {
+                const r = heartSize + Math.sin(angle) * 50;
+                const x = centerX + Math.cos(angle) * r;
+                const y = centerY + Math.sin(angle) * 25;
+                ctx.lineTo(x, y);
+            }
+            ctx.fillStyle = "#ff6b6b";
+            ctx.fill();
+
+            // Rotate heart
+            ctx.rotate(-Math.PI / 4);
+            ctx.globalTranslate(centerX, centerY);
+
+            for (let angle = 0; angle < Math.PI * 2; angle += 0.1) {
+                const r = 50 + Math.sin(angle) * 30;
+                ctx.beginPath();
+                ctx.arc(r, 0, 0.1, -Math.PI / 2, Math.PI / 2);
+                ctx.fillStyle = "rgba(255, 107, 107, 0.8)";
+                ctx.fill();
+            }
+
+            ctx.globalTranslate(-centerX, -centerY);
+        }
+
+        // Call the function to draw the border
+        setInterval(drawHeartBorder, 300);
+
+        // Initial heart border
+        drawHeartBorder();
+    </script>
+</body>
+</html>
