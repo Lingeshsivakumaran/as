@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrogators</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+     <script  type="module"  src="../static/js/data.js"></script>
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="#">Astrogators</a>
+        <a href="../about.html">About</a>
+        <a href="../about.html">Team Members</a>
+        <a href="../NASA App Challenge 2024/app.py">Contact</a>
+    </div>
+
+    <div class="title">
+        <h1>ASTROGATOR</h1>
+    </div> 
+
+    <!-- Canvas container for Three.js -->
+    <div class="threejs-container">
+        <canvas id="threejs-canvas"></canvas>
+    </div>
+
+    <div id="planetInfo">
+        <h2 id="planetName"></h2>
+        <p id="planetDescription"></p>
+        <ul id="planetParameters">
+            <li id="distanceFromSun"></li>
+            <li id="radius"></li>
+            <li id="atmosphereComposition"></li>
+            <li id="surfaceTemperatureRange"></li>
+            <li id="orbitalPeriod"></li>
+            <li id="moons"></li>
+            <li id="age"></li>
+        </ul>
+    </div>
+    
+
+    <div id="planetPlotdata">
+        <h2 id="planetName1"></h2>
+        <p id="planetDescription1"></p>
+        <ol id="description1">
+            <li id="parameters11"></li>
+            <button id="plot1" class="plot" mouseover="toggletexture(1)">Plot</button>
+            <li id="parameters21"></li>
+            <button id="plot2" class="plot" mouseover="toggletexture(2)">Plot</button>
+            <li id="parameters31"></li>
+            <button id="plot3" class="plot" mouseover="toggletexture(0)">Plot</button>
+        </ol>
+    </div>
+    
+    <div id="labels-container" style="position: absolute; top: 0; left: 0; pointer-events: none;"></div>
+
+
+
+
+    <div id="popup" style="display: none; position: absolute; background-color: rgb(65, 63, 63); padding: 10px; border: 1px solid rgb(255, 255, 255);">
+        <!-- Popup content will go here -->
+    </div>
+    
+    <div class="asteroid-section">
+        <h2 class="section-title">All Asteroids</h2>
+        <div class="asteroid-container" id="all-asteroids"></div>
+    </div>
+
+
+    <script type="module"  src="../static/js/java.js"></script>
+
+    <footer>
+        <div class="footer-navbar">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Help</a>
+        </div>
+    </footer>
+</body>
+</html>
